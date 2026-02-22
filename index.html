@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ジョジョのタロット占い</title>
+  <link rel="icon" href="https://files.manuscdn.com/user_upload_by_module/session_file/310519663073731871/NkamIHiPgUonlcRb.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Screen: Home -->
+    <div id="screen-home" class="screen active">
+      <div class="stars-bg"></div>
+      <div class="home-content">
+        <div class="logo-area">
+          <div class="logo-star">★</div>
+          <h1 class="title-main">ジョジョの</h1>
+          <h1 class="title-accent">タロット占い</h1>
+          <p class="title-sub">スタンドの力で運命を読み解く</p>
+        </div>
+
+        <div class="input-section">
+          <label class="section-label">何について占いますか？</label>
+          <input
+            type="text"
+            id="theme-input"
+            class="theme-input"
+            placeholder="例：仕事、恋愛、今日の運勢..."
+            maxlength="50"
+          />
+        </div>
+
+        <div class="quick-themes-section">
+          <label class="section-label">よく使うテーマ</label>
+          <div class="quick-themes">
+            <button class="quick-theme-btn" data-theme="仕事・キャリア">仕事・キャリア</button>
+            <button class="quick-theme-btn" data-theme="恋愛・人間関係">恋愛・人間関係</button>
+            <button class="quick-theme-btn" data-theme="今日の運勢">今日の運勢</button>
+            <button class="quick-theme-btn" data-theme="お金・財運">お金・財運</button>
+            <button class="quick-theme-btn" data-theme="健康">健康</button>
+            <button class="quick-theme-btn" data-theme="勉強・試験">勉強・試験</button>
+          </div>
+        </div>
+
+        <div class="card-count-section">
+          <label class="section-label">カードの枚数</label>
+          <div class="card-count-row">
+            <button class="card-count-btn active" data-count="1">
+              <span class="count-label">1枚</span>
+              <span class="count-desc">シンプルな答え</span>
+            </button>
+            <button class="card-count-btn" data-count="3">
+              <span class="count-label">3枚</span>
+              <span class="count-desc">過去・現在・未来</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="start-btn" class="start-btn" disabled>
+          ✦ カードを引く ✦
+        </button>
+
+        <div id="history-preview" class="history-preview" style="display:none">
+          <div class="history-preview-header">
+            <span class="section-label">最近の占い</span>
+            <button id="view-history-btn" class="text-btn">すべて見る →</button>
+          </div>
+          <div id="history-list-preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen: Card Selection -->
+    <div id="screen-cards" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">← 戻る</button>
+        <div class="header-center">
+          <div id="cards-theme-display" class="header-theme"></div>
+          <div id="cards-progress" class="header-progress">0 / 1 枚選択中</div>
+        </div>
+        <div style="width:80px"></div>
+      </div>
+      <div class="prompt-bar">
+        <span id="cards-prompt">カードを 1 枚選んでください</span>
+      </div>
+      <div class="deck-container">
+        <div id="card-deck" class="card-deck"></div>
+      </div>
+    </div>
+
+    <!-- Screen: Result -->
+    <div id="screen-result" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">← ホーム</button>
+        <div class="header-title">占い結果</div>
+        <div style="width:80px"></div>
+      </div>
+      <div class="result-content">
+        <div class="result-theme-area">
+          <div class="result-theme-label">占いテーマ</div>
+          <div id="result-theme-text" class="result-theme-text"></div>
+        </div>
+        <div id="result-cards-row" class="result-cards-row"></div>
+        <div id="result-card-details" class="result-card-details"></div>
+        <div id="result-reading" class="result-reading">
+          <div class="reading-title">✦ 占い結果 ✦</div>
+          <div id="reading-text" class="reading-text"></div>
+        </div>
+        <button id="again-btn" class="start-btn" style="margin:0 0 40px">もう一度占う</button>
+      </div>
+    </div>
+
+    <!-- Screen: History -->
+    <div id="screen-history" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="home">← 戻る</button>
+        <div class="header-title">占い履歴</div>
+        <button id="clear-history-btn" class="danger-text-btn">クリア</button>
+      </div>
+      <div id="history-content" class="history-content"></div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-screen="home">
+      <span class="tab-icon">✦</span>
+      <span class="tab-label">占い</span>
+    </button>
+    <button class="tab-btn" data-screen="history">
+      <span class="tab-icon">◷</span>
+      <span class="tab-label">履歴</span>
+    </button>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

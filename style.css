@@ -1,0 +1,946 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #1A0A2E;
+  --bg-dark: #0D0517;
+  --surface: #2D1B4E;
+  --surface2: #3A1D5A;
+  --primary: #FFD700;
+  --primary-glow: rgba(255, 215, 0, 0.35);
+  --fg: #F0E6FF;
+  --muted: #9B7EC8;
+  --border: #4A2D7A;
+  --accent: #C0A0FF;
+  --success: #4ADE80;
+  --error: #F87171;
+  --card-back-bg: #1E0A3E;
+  --max-w: 480px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-dark);
+  color: var(--fg);
+  font-family: 'Noto Serif JP', serif;
+  overflow: hidden;
+}
+
+/* ===== App Shell ===== */
+#app {
+  position: fixed;
+  inset: 0;
+  bottom: 64px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Screens ===== */
+.screen {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* ===== Stars Background ===== */
+.stars-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(100, 0, 180, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 50, 150, 0.12) 0%, transparent 60%);
+}
+
+.stars-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 40%, rgba(192,160,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 10%, rgba(255,215,0,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 55%, rgba(192,160,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 25%, rgba(255,215,0,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 70%, rgba(192,160,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 85%, rgba(255,215,0,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 90%, rgba(192,160,255,0.4) 0%, transparent 100%);
+}
+
+/* ===== Home Screen ===== */
+.home-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px 32px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-top: 8px;
+}
+
+.logo-star {
+  font-size: 40px;
+  color: var(--primary);
+  margin-bottom: 4px;
+  animation: pulse-star 3s ease-in-out infinite;
+}
+
+@keyframes pulse-star {
+  0%, 100% { text-shadow: 0 0 10px var(--primary-glow); }
+  50% { text-shadow: 0 0 24px var(--primary), 0 0 48px var(--primary-glow); }
+}
+
+.title-main {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.3;
+}
+
+.title-accent {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 34px;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px var(--primary-glow);
+}
+
+.title-sub {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+}
+
+/* ===== Sections ===== */
+.input-section,
+.quick-themes-section,
+.card-count-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Theme Input ===== */
+.theme-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--fg);
+  font-family: 'Noto Serif JP', serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.theme-input::placeholder {
+  color: var(--border);
+}
+
+.theme-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ===== Quick Themes ===== */
+.quick-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-theme-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+  font-family: 'Noto Serif JP', serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quick-theme-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.quick-theme-btn.active {
+  background: var(--surface2);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ===== Card Count ===== */
+.card-count-row {
+  display: flex;
+  gap: 12px;
+}
+
+.card-count-btn {
+  flex: 1;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  font-family: 'Noto Serif JP', serif;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.card-count-btn:hover {
+  border-color: var(--accent);
+}
+
+.card-count-btn.active {
+  background: var(--surface2);
+  border-color: var(--primary);
+}
+
+.count-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.card-count-btn.active .count-label {
+  color: var(--primary);
+}
+
+.count-desc {
+  font-size: 11px;
+  color: var(--border);
+}
+
+.card-count-btn.active .count-desc {
+  color: var(--accent);
+}
+
+/* ===== Start Button ===== */
+.start-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--primary);
+  border: none;
+  color: var(--bg);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Noto Serif JP', serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 4px 24px var(--primary-glow);
+  margin-bottom: 24px;
+}
+
+.start-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 32px var(--primary-glow);
+}
+
+.start-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.start-btn:disabled {
+  background: var(--surface2);
+  color: var(--border);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ===== History Preview ===== */
+.history-preview {
+  margin-top: 8px;
+}
+
+.history-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Noto Serif JP', serif;
+}
+
+.text-btn:hover {
+  color: var(--primary);
+}
+
+.history-mini-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.history-mini-card:hover {
+  border-color: var(--accent);
+}
+
+.history-mini-theme {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+
+.history-mini-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ===== Screen Header ===== */
+.screen-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 15px;
+  cursor: pointer;
+  font-family: 'Noto Serif JP', serif;
+  width: 80px;
+  text-align: left;
+  transition: color 0.15s;
+}
+
+.back-btn:hover {
+  color: var(--primary);
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.header-theme {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.header-progress {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.danger-text-btn {
+  background: none;
+  border: none;
+  color: var(--error);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Noto Serif JP', serif;
+  width: 80px;
+  text-align: right;
+}
+
+/* ===== Prompt Bar ===== */
+.prompt-bar {
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--border);
+  padding: 14px 20px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* ===== Card Deck ===== */
+.deck-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+/* ===== Tarot Card Back ===== */
+.tarot-card-back {
+  width: calc((min(100vw, 480px) - 80px) / 3);
+  aspect-ratio: 0.625;
+  border-radius: 8px;
+  background: var(--card-back-bg);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarot-card-back::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.tarot-card-back:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(192, 160, 255, 0.2);
+}
+
+.tarot-card-back.selected {
+  border-color: var(--primary);
+  border-width: 3px;
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+
+.card-back-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-back-star {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.card-back-jojo {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+
+.card-back-tarot {
+  font-size: 8px;
+  color: var(--muted);
+  letter-spacing: 3px;
+}
+
+/* ===== Result Screen ===== */
+.result-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.result-theme-area {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.result-theme-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.result-theme-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ===== Result Cards ===== */
+.result-cards-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.result-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.result-position-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ===== Tarot Card Front ===== */
+.tarot-card-front {
+  border-radius: 10px;
+  background: var(--bg);
+  border: 2px solid;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s;
+}
+
+.tarot-card-front.reversed {
+  transform: rotate(180deg);
+}
+
+.card-front-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+}
+
+.card-number {
+  font-size: 9px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.card-tarot-name {
+  font-size: 10px;
+  color: var(--fg);
+  font-weight: 700;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-image-container {
+  flex: 1;
+  background: var(--bg-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.card-image-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-dark);
+}
+
+.card-image-fallback .fallback-star {
+  font-size: 36px;
+}
+
+.card-image-fallback .fallback-name {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.card-front-footer {
+  padding: 4px 8px;
+}
+
+.card-stand-name {
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-user-name {
+  font-size: 8px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.position-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+.position-tag.upright {
+  background: #1E4A2E;
+  color: var(--success);
+}
+
+.position-tag.reversed {
+  background: #4A1E1E;
+  color: var(--error);
+}
+
+/* ===== Card Details ===== */
+.result-card-details {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-detail-item {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 14px;
+  border-left: 3px solid;
+}
+
+.card-detail-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.card-detail-meaning {
+  font-size: 13px;
+  color: var(--accent);
+  line-height: 1.6;
+}
+
+/* ===== Reading ===== */
+.result-reading {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.reading-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px var(--primary-glow);
+}
+
+.reading-text {
+  font-size: 14px;
+  color: var(--fg);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* ===== History Screen ===== */
+.history-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  padding-bottom: 60px;
+}
+
+.history-empty-icon {
+  font-size: 48px;
+  color: var(--border);
+}
+
+.history-empty-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.history-empty-sub {
+  font-size: 13px;
+  color: var(--border);
+  text-align: center;
+  max-width: 240px;
+  line-height: 1.6;
+}
+
+.history-record {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.history-record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.history-record-theme {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.history-record-date {
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.history-record-cards {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.history-mini-stand {
+  flex: 1;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.history-mini-tarot {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.history-mini-stand-name {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.history-mini-pos {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+.history-mini-pos.upright {
+  background: #1E4A2E;
+  color: var(--success);
+}
+
+.history-mini-pos.reversed {
+  background: #4A1E1E;
+  color: var(--error);
+}
+
+.history-record-reading {
+  font-size: 12px;
+  color: var(--accent);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Tab Bar ===== */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--bg);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  z-index: 100;
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding-top: 8px;
+}
+
+.tab-icon {
+  font-size: 22px;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.tab-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Noto Serif JP', serif;
+  transition: color 0.15s;
+}
+
+.tab-btn.active .tab-icon,
+.tab-btn.active .tab-label {
+  color: var(--primary);
+}
+
+/* ===== Card Flip Animation ===== */
+@keyframes card-flip-in {
+  from {
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+.tarot-card-front {
+  animation: card-flip-in 0.5s ease-out both;
+}
+
+/* ===== Fade In ===== */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-content > * {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+.result-content > *:nth-child(2) { animation-delay: 0.1s; }
+.result-content > *:nth-child(3) { animation-delay: 0.2s; }
+.result-content > *:nth-child(4) { animation-delay: 0.3s; }
+.result-content > *:nth-child(5) { animation-delay: 0.4s; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 600px) {
+  #app {
+    max-width: var(--max-w);
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  .tab-bar {
+    max-width: var(--max-w);
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+}
