@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ポモドーロタイマー</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #1a1a2e;
+      color: #eee;
+      font-family: sans-serif;
+    }
+    #mode {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 16px;
+    }
+    #timer {
+      font-size: 6rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.05em;
+    }
+    #timer.break { color: #4ecdc4; }
+    #timer.work  { color: #ff6b6b; }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    button {
+      padding: 10px 24px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background: transparent;
+      color: #eee;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover { background: #333; }
+    #session {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div id="mode">作業</div>
+  <div id="timer" class="work">25:00</div>
+  <div class="controls">
+    <button id="btn-start">スタート</button>
+    <button id="btn-reset">リセット</button>
+  </div>
+  <div id="session">セッション 1</div>
+
+  <script>
+    const WORK = 25 * 60;
+    const BREAK = 5 * 60;
+
+    let remaining = WORK;
+    let isWork = true;
+    let session = 1;
+    let interval = null;
+
+    const timerEl  = document.getElementById('timer');
+    const modeEl   = document.getElementById('mode');
+    const sessionEl = document.getElementById('session');
+    const startBtn = document.getElementById('btn-start');
+    const resetBtn = document.getElementById('btn-reset');
+
+    function fmt(s) {
+      const m = String(Math.floor(s / 60)).padStart(2, '0');
+      const sec = String(s % 60).padStart(2, '0');
+      return `${m}:${sec}`;
+    }
+
+    function render() {
+      timerEl.textContent = fmt(remaining);
+      timerEl.className = isWork ? 'work' : 'break';
+      modeEl.textContent = isWork ? '作業' : '休憩';
+      sessionEl.textContent = `セッション ${session}`;
+      document.title = `${fmt(remaining)} - ${isWork ? '作業' : '休憩'}`;
+    }
+
+    function tick() {
+      if (remaining > 0) {
+        remaining--;
+        render();
+      } else {
+        clearInterval(interval);
+        interval = null;
+        startBtn.textContent = 'スタート';
+        if (isWork) {
+          isWork = false;
+          remaining = BREAK;
+        } else {
+          isWork = true;
+          session++;
+          remaining = WORK;
+        }
+        render();
+        new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAA==').play().catch(() => {});
+        alert(isWork ? `休憩終了！セッション ${session} 開始` : '作業完了！休憩しましょう');
+      }
+    }
+
+    startBtn.addEventListener('click', () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+        startBtn.textContent = 'スタート';
+      } else {
+        interval = setInterval(tick, 1000);
+        startBtn.textContent = '一時停止';
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      interval = null;
+      isWork = true;
+      session = 1;
+      remaining = WORK;
+      startBtn.textContent = 'スタート';
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
