@@ -489,6 +489,12 @@ function showResult() {
   };
   addHistoryRecord(record);
 
+  // Reset result screen for normal fortune flow
+  const resultBackBtn = document.querySelector('#screen-result .back-btn');
+  resultBackBtn.dataset.target = 'home';
+  resultBackBtn.textContent = '← ホーム';
+  document.getElementById('again-btn').style.display = '';
+
   renderResult(state.theme, selectedCards, reading);
   showScreen('result');
 }
@@ -555,6 +561,19 @@ function renderResult(theme, selectedCards, reading) {
   };
 }
 
+// ===== History Detail =====
+function showHistoryDetail(record) {
+  renderResult(record.theme, record.cards, record.reading);
+
+  const resultBackBtn = document.querySelector('#screen-result .back-btn');
+  resultBackBtn.dataset.target = 'history';
+  resultBackBtn.textContent = '← 履歴';
+
+  document.getElementById('again-btn').style.display = 'none';
+
+  showScreen('result');
+}
+
 // ===== History Screen =====
 function renderHistory() {
   const records = loadHistory();
@@ -574,7 +593,7 @@ function renderHistory() {
 
   records.forEach(record => {
     const el = document.createElement('div');
-    el.className = 'history-record';
+    el.className = 'history-record history-record-tappable';
 
     const cardsHtml = record.cards.map(({ card, isReversed }) => `
       <div class="history-mini-stand" style="border-color:${card.color}33">
@@ -590,8 +609,10 @@ function renderHistory() {
         <div class="history-record-date">${record.date}</div>
       </div>
       <div class="history-record-cards">${cardsHtml}</div>
-      <div class="history-record-reading">${record.reading}</div>
+      <div class="history-record-tap-hint">タップして詳細を見る →</div>
     `;
+
+    el.addEventListener('click', () => showHistoryDetail(record));
     content.appendChild(el);
   });
 }
@@ -604,6 +625,7 @@ function initNavigation() {
       const target = btn.dataset.target;
       showScreen(target);
       if (target === 'home') initHome();
+      if (target === 'history') renderHistory();
     });
   });
 
